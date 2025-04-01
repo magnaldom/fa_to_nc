@@ -1,6 +1,11 @@
 # fa_to_nc
 1/ Récupérer les scripts :
-- script_traitement_SR_light.py :
+- script_traitement_SR_light.py : ne récupère que les champs 2D
+        Script principale
+        En argument : date de début, date de fin au format YYYMMDD
+        Ex pour récupérer le mois de janvier 2023 : script_traitement_SR_light.py 20230101 20230131
+
+  - script_traitement_SR.py : récup_re les champs 3D.
         Script principale
         En argument : date de début, date de fin au format YYYMMDD
         Ex pour récupérer le mois de janvier 2023 : script_traitement_SR_light.py 20230101 20230131
@@ -11,6 +16,7 @@
 - prestaging.py
 - prestaging_abalyse.py
 - script_recup.py
+- Pour récupérer les champs 3D : ../tools/masse_lwp_iwp.py et calcul_pression.py
 
 2/ Créer l'arborescence :
 Il faut une aborescence pour les .nc (DATA/) mais aussi pour les .fa temporaire (temp/).
