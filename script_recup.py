@@ -13,10 +13,7 @@ import os
 import netCDF4 as nc
 import numpy as np
 import os
-import fonctions_fa_nc
 import time
-#import imp
-#imp.reload(fonctions_fa_nc)
 import fonction_recup_analyse
 from datetime import datetime, timedelta
 import sys
