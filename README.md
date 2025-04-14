@@ -5,7 +5,7 @@
         En argument : date de début, date de fin au format YYYMMDD
         Ex pour récupérer le mois de janvier 2023 : script_traitement_SR_light.py 20230101 20230131
 
-  - script_traitement_SR.py : récupère les champs 3D et les champs 2D.
+- script_traitement_SR.py : récupère les champs 3D et les champs 2D.
         Script principal
         En argument : date de début, date de fin au format YYYMMDD
 
@@ -52,9 +52,9 @@ De cette façon, en créant un dossier par mois, tu peux convertir plusieurs moi
 
 5/ Modifier l'adresse mail dans le fichier prestaging*.py.
 
-5/ Vider les dossiers /DATA/YYYYMM et temp/YYYYMM.
+6/ Vider les dossiers /DATA/YYYYMM et temp/YYYYMM.
 
-6/ Lancer ;)
+7/ Lancer ;)
 
 Notes : 
 Les scripts de récupération et de traitement sont lancés en parallèle, ce qui signifie que si l'un ne fonctionne pas, l'autre continuera de tourner dans tous les cas. Ce n'est pas un problème quand c'est script_recup.py qui ne fonctionne pas (car script_traitement.py ne peut pas fonctionner sans lui), mais script_recup peut continuer de télécharger les .fa même si script_traitement n'arrive pas à les traiter. Dans ce cas là, il faut kill le process manuellement (top, kill XXXX).
