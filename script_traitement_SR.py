@@ -25,9 +25,6 @@ import netCDF4 as nc
 import numpy as np
 import os
 import time
-#SR pourquoi faire le reload?
-#SR import imp
-#SR imp.reload(fonctions_fa_nc)
 import fonction_recup_analyse
 from datetime import datetime, timedelta
 import sys

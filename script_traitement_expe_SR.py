@@ -24,7 +24,7 @@ import netCDF4 as nc
 import numpy as np
 import os
 import time
-import fonction_recup_analyse
+import fonction_recup_expe
 from datetime import datetime, timedelta
 import sys
 from num_jour_between import num_jour_between
@@ -44,23 +44,23 @@ m2 = int(date_temp2[4:6])
 d2 = int(date_temp2[6:8])
 date1 = datetime(y1,m1,d1,0,0,0)
 date2 = datetime(y2,m2,d2,0,0,0)
-
+expe = str(sys.argv[3])
 
 ####==============
 ### On lance le scrip recup
 ###=================
-os.system("rm -f /d0/Users/magnaldom/STOCKAGE_AROME_UP/DATA/temp/%s%s/*" %(str(date1.year),str(date1.month).zfill(2)))
+os.system("rm -f /d0/Users/magnaldom/STOCKAGE_AROME_UP/%s/temp/%s%s%s/*" %(expe,str(date1.year), str(date1.day).zfill(2),str(date1.month).zfill(2)))
 
-os.system("python3 prestaging_analyse.py %s %s &" %(date_temp1, date_temp2))
+os.system("python3 prestaging_expe.py %s %s %s &" %(date_temp1, date_temp2, expe))
 
-os.system("python3 script_recup.py %s %s &" %(date_temp1, date_temp2))
+os.system("python3 script_recup_expe.py %s %s %s &" %(date_temp1, date_temp2, expe))
 #subprocess.run(["python3 script_recup.py %s %s" %(date_temp1, date_temp2)])
 print("Script_recup lancé")
 ### ============================================================================
 #SR Si je comprends bien ça va rechercher à nouveau le fichier sur hendrix
 #   est-ce qu'il ne suffirait pas de l'attendre?
 try:
-  FILE = fonction_recup_analyse.recup_up(date1,0)
+  FILE = fonction_recup_expe.recup_up(date1,0,expe)
   #fa = "historic.arome.fog"+res+"-"+res+"m000+0000:00.fa"
   #FILE = epygram.formats.resource(fa, 'r')
 except:
@@ -70,28 +70,25 @@ FILE.close()
 
 ### Variables
 # Rayonnement
-#vars_2D = ['SURFRAYT SOLA DE', 'SURFRAYT THER DE', 'SURFFLU.RAY.SOLA', 'SURFFLU.RAY.THER', 'SOMMFLU.RAY.SOLA',
-#           'SOMMFLU.RAY.THER', 'SURFRAYT.SOLAIRE', 'SURFRAYT.TERREST', 'SOMMRAYT.SOLAIRE', 'SOMMRAYT.TERREST',
-#           'S001RAYT SOL CL', 'S001RAYT THER CL', 'S090RAYT SOL CL', 'S090RAYT THER CL', 'SURFRAYT DIR SUR',
-#           'TOPRAYT DIR SOM', 'SURFDIR NORM IRR']
-vars_2D = ['SURFRAYT SOLA DE','S090CLOUD_WATER']
-
+vars_2D = ['SURFRAYT SOLA DE', 'SURFRAYT THER DE', 'SURFFLU.RAY.SOLA', 'SURFFLU.RAY.THER', 'SOMMFLU.RAY.SOLA',
+           'SOMMFLU.RAY.THER', 'SURFRAYT.SOLAIRE', 'SURFRAYT.TERREST', 'SOMMRAYT.SOLAIRE', 'SOMMRAYT.TERREST',
+           'S001RAYT SOL CL', 'S001RAYT THER CL', 'S090RAYT SOL CL', 'S090RAYT THER CL', 'SURFRAYT DIR SUR',
+           'TOPRAYT DIR SOM', 'SURFDIR NORM IRR']
 # Nébulosté
-vars_2D.extend(['ATMONEBUL.TOTALE', 'ATMONEBUL.HAUTE', 'ATMONEBUL.MOYENN', 'ATMONEBUL.BASSE'])
-
+vars_2D.extend(['ATMONEBUL.TOTALE', 'ATMONEBUL.HAUTE', 'ATMONEBUL.MOYENN', 'ATMONEBUL.BASSE', 'SURFNEBUL.TOTALE',
+                'SURFNEBUL.HAUTE', 'SURFNEBUL.MOYENN', 'SURFNEBUL.BASSE'])
 # Autres
-#vars_2D.extend(['SURFPRESSION', 'SURFTEMPERATURE'])
-vars_3D = []
+vars_2D.extend(['SURFPRESSION', 'SURFTEMPERATURE'])
 
-#vars_3D = ['HUMI.SPECIFI', 'CLOUD_WATER', 'CLOUD_FRACTI', 'TEMPERATURE', 'ICE_CRYSTAL',
-#           'SNOW', 'GRAUPEL', 'RAIN']
+vars_3D = ['HUMI.SPECIFI', 'CLOUD_WATER', 'CLOUD_FRACTI', 'TEMPERATURE', 'ICE_CRYSTAL',
+           'SNOW', 'GRAUPEL', 'RAIN']
 
-# vars_3D.extend(['SRC', 'EZDIAG01', 'EZDIAG02', 'EZDIAG03', 'FRSODSS', 'ODSWLIQ',
-#                   'ODSWICE', 'SWDIRECTBAND', 'SWDIFFUSEBAN', 'ANCILLARY',
-#                   #'ODLIQSCAL', ODICESCAL',
-#                   'RELIQ', 'REICE', 'SWIMDEROY'])
+vars_3D.extend(['SRC', 'EZDIAG01', 'EZDIAG02', 'EZDIAG03', 'FRSODSS', 'ODSWLIQ',
+                  'ODSWICE', 'SWDIRECTBAND', 'SWDIFFUSEBAN', 'ANCILLARY',
+                  #'ODLIQSCAL', ODICESCAL',
+                  'RELIQ', 'REICE', 'SWIMDEROY'])
 
-fa_0 =  "/d0/Users/magnaldom/STOCKAGE_AROME_UP/temp/%s%s/%s%s%s%s.fa" %( str(date1.year).zfill(4), str(date1.month).zfill(2),
+fa_0 =  "/d0/Users/magnaldom/STOCKAGE_AROME_UP/%s/temp/%s%s/%s%s%s%s.fa" %(expe, str(date1.year).zfill(4), str(date1.month).zfill(2),
                                                                                     str(date1.year).zfill(4),
                                                                                     str(date1.month).zfill(2), str(date1.day).zfill(2), str(0).zfill(2))
 tmps = time.time()
@@ -114,7 +111,7 @@ for d in range(0, num_jour):
   print(date)
 
   tmps = time.time()
-  file_nc = nc.Dataset("/d0/Users/magnaldom/STOCKAGE_AROME_UP/DATA_light/%s%s/AROME_%s%s%s.nc" %(str(date.year).zfill(4), str(date.month).zfill(2),
+  file_nc = nc.Dataset("/d0/Users/magnaldom/STOCKAGE_AROME_UP/%s/%s%s/AROME_%s%s%s.nc" %(expe, str(date.year).zfill(4), str(date.month).zfill(2),
                                                                                                 str(date.year).zfill(4), str(date.month).zfill(2),
                                                                                                 str(date.day).zfill(2)), "w", format="NETCDF4")
   #file_nc = nc.Dataset("test.nc","w",format="NETCDF4")
@@ -163,14 +160,14 @@ for d in range(0, num_jour):
   tmps2p=time.time()
 
   t_deb = 1
-  t_fin = 23
+  t_fin = 25
   for t in range(t_deb, t_fin):
     #====================
     # Attendre que le fichier.fa soit recup
     #====================
     time_counter = 0
     time_to_wait = 1*60*60
-    fa = "/d0/Users/magnaldom/STOCKAGE_AROME_UP/temp/%s%s/%s%s%s%s.fa" %(str(date.year).zfill(4), str(date.month).zfill(2),
+    fa = "/d0/Users/magnaldom/STOCKAGE_AROME_UP/%s/temp/%s%s/%s%s%s%s.fa" %(expe, str(date.year).zfill(4), str(date.month).zfill(2),
                                                                                      str(date.year).zfill(4),
                                                                                      str(date.month).zfill(2), str(date.day).zfill(2), str(t).zfill(2))
     while not os.path.exists(fa):
@@ -245,5 +242,5 @@ for d in range(0, num_jour):
   print("Temps un jour sans préparation:", time.time() - tmps2p)
   file_nc.close()
   
-#os.system("python3 DATA_light/script_traitement_light_expe.py %s %s %s &" %(date_temp1, date_temp2, expe))
+os.system("python3 DATA_light/script_traitement_light_expe.py %s %s %s &" %(date_temp1, date_temp2, expe))
 
