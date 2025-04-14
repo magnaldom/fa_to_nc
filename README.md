@@ -50,6 +50,8 @@ De cette façon, en créant un dossier par mois, tu peux convertir plusieurs moi
 - fonction_recup.py (L53, L80)
 - script_recup.py (L52)
 
+5/ Modifier l'adresse mail dans le fichier prestaging*.py.
+
 5/ Vider les dossiers /DATA/YYYYMM et temp/YYYYMM.
 
 6/ Lancer ;)
