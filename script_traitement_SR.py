@@ -65,7 +65,7 @@ os.system("rm -f /d0/Users/magnaldom/STOCKAGE_AROME_UP/DATA/temp/%s%s/*" %(str(d
 
 os.system("python3 prestaging_analyse.py %s %s &" %(date_temp1, date_temp2))
 
-os.system("python3 script_recup.py %s %s &" %(date_temp1, date_temp2))
+os.system("python3 script_recup_analyse.py %s %s &" %(date_temp1, date_temp2))
 #subprocess.run(["python3 script_recup.py %s %s" %(date_temp1, date_temp2)])
 print("Script_recup lancé")
 ### ============================================================================
