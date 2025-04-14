@@ -44,6 +44,7 @@ De cette façon, en créant un dossier par mois, tu peux convertir plusieurs moi
         prestaging.py (L66)
         script_recup.py (L68)
 - Les dossiers d'accueil : je passe par /d0, je te conseille de faire pareil. Modifie selon ton arborescence (L64, L107, L130, L186)
+- Adapter les variables lues dans les boucles (L206, L223, L244), toutes les variables ne sont pas cherchées dans les .fa (pas le cas des LWP etc.)
 
 4/ Egalement modifier les chemins dans les autres scripts :
 - fonction_recup.py (L53, L80)
