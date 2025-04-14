@@ -9,11 +9,11 @@
         Script principal
         En argument : date de début, date de fin au format YYYMMDD
 
-- num_jour_between.py
+- num_jour_between.py (dans le dossier ../tools)
 - fonction_recup.py
 - fonction_recup_analyse.py
 - prestaging.py
-- prestaging_abalyse.py
+- prestaging_analyse.py
 - script_recup.py
 - Pour récupérer les champs 3D de contenu et les convertir en champs 2D (ex : LWP/IWP) : ../tools/masse_lwp_iwp.py et calcul_pression.py
 Ainsi que le fichier /d0/Users/magnaldom/STOCKAGE_AROME_UP/A_B_AROME.nc.
